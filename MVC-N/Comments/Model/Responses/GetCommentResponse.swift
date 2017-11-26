@@ -1,0 +1,27 @@
+//
+//  GetCommentResponse.swift
+//  MVC-N
+//
+//  Created by Maxim Dvortsov on 25.11.2017.
+//  Copyright © 2017 Maxim Dvortsov. All rights reserved.
+//
+
+import Foundation
+
+struct GetCommentResponse {
+    
+    typealias JSON = [String: AnyObject]
+    
+    let comments: [Comment]
+    
+    init(json: Any) throws {
+        guard let array = json as? [JSON] else { throw NetworkError.failInternetError }
+        
+        var comments = [Comment]()
+        for dictionary in array {
+            guard let comment = Comment(dict: dictionary) else { continue }
+            comments.append(comment)
+        }
+        self.comments = comments
+    }
+}
